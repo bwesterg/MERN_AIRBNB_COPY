@@ -24,7 +24,7 @@ mongoose.connect(process.env.MONGO_URL);
 
 
 app.get('/test', (req, res) => {
-    res.json('heyo');
+    res.json('heyo1');
 });
 
 
