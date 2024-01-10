@@ -18,9 +18,9 @@ export default function AccountPage() {
         setUser(null);
     }
 
-    if (!ready) {
-        return 'Loading...';
-    }
+    // if (!ready) {
+    //     return 'Loading...';
+    // }
 
     if (ready && !user && !redirect) {
         return <Navigate to={'/login'} />
