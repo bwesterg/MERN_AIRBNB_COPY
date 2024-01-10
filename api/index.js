@@ -24,8 +24,9 @@ mongoose.connect(process.env.MONGO_URL);
 
 
 app.get('/test', (req, res) => {
-    res.json('heyo1');
+    res.json('a');
 });
+
 
 
 app.post('/register', async (req, res) => {
@@ -81,6 +82,7 @@ app.get('/profile', (req,res) => {
 
 app.post('/logout', (req,res) => {
     res.cookie('token', '').json(true);
-})
+});
+
 
 app.listen(4000);
