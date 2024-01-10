@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Perks from "../Perks";
+import axios from "axios";
 
 export default function PlacesPage() {
     const {action} = useParams();
@@ -37,8 +38,28 @@ export default function PlacesPage() {
         )
     };
 
-    function addPhotoByLink() {
-        
+    async function addPhotoByLink(ev) {
+        ev.preventDefault();
+        const {data:filename} = await axios.post('/upload-by-link', {link: photoLink})
+        setAddedPhotos(prev => {
+            return [...prev, filename];
+        });
+        setPhotoLink('');
+    }
+
+    function uploadPhoto(ev) {
+        const files = ev.target.files;
+        // console.log({files})
+        const data = new FormData();
+        data.set('photos', files);
+        axios.post('/upload', data, {
+            headers: {'Content-type':'multipart/form-data'}
+        }).then(response => {
+            const {data:filename} = response;
+            setAddedPhotos(prev => {
+                return [...prev, filename];
+            });
+        })
     }
 
     return(
@@ -68,15 +89,22 @@ export default function PlacesPage() {
                                 onChange={ev=>setPhotoLink(ev.target.value)} 
                                 type="text" placeholder='Add photo using a link' 
                             />
-                            <button className="bg-gray-200 px-4 rounded-2xl">Add photo</button>
+                            <button onClick={addPhotoByLink} className="bg-gray-200 px-4 rounded-2xl">Add photo</button>
                         </div>
-                        <div className="mt-4 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-                            <button className="justify-center gap-1 flex border bg-transparent rounded-2xl p-8 text-xl text-gray-600">
+                        
+                        <div className="mt-4 grid gap-2 grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+                            {addedPhotos.length > 0 && addedPhotos.map(link => (
+                                <div id="places-photo-bank">
+                                    <img className="rounded-2xl" src={'http://localhost:4000/uploads/'+link} />
+                                </div>
+                            ))}
+                            <label className=" cursor-pointer flex items-center justify-center gap-1 border bg-transparent rounded-2xl p-2 text-xl text-gray-600">
+                                <input type="file" className="hidden" onChange={uploadPhoto} />
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 pb-1">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15" />
                                 </svg>
                                 Upload
-                            </button>
+                            </label>
                         </div>
                         {preInput('Description', 'Describe your place')}
                         <textarea value={description} onChange={ev=>setDescription(ev.target.value)} />
