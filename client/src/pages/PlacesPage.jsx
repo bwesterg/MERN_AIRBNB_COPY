@@ -10,6 +10,19 @@ export default function PlacesPage() {
             setPlaces(data);
         });
     }, []);
+
+    function shortenDescription(str) {
+        const elypsis = '...';
+        let shortened = str.substring(0, 300);
+        let shortElyp = shortened + elypsis;
+        if (str.length <= 299) {
+            return 'str';
+        } else {
+            return shortElyp;
+        }
+    }
+    
+
     return(
         <div>
             <AccountNav />
@@ -26,7 +39,7 @@ export default function PlacesPage() {
             {/* )} */}
             <div className="mt-4">
                 {places.length > 0 && places.map(place => (
-                    <Link to={'/account/places/'+place._id} className="flex cursor-pointer bg-gray-100 p-4 gap-4 rounded-2xl">
+                    <Link to={'/account/places/'+place._id} className="flex cursor-pointer bg-gray-100 p-4 gap-4 rounded-2xl mt-4">
                         <div className="flex w-32 h-32 bg-gray-300 grow shrink-0">
                             {place.photos.length > 0 && (
                                 <img className="object-cover w-full" src={'http://localhost:4000/uploads/' +place.photos[0]} alt="thumbnail photo"/>
@@ -34,7 +47,8 @@ export default function PlacesPage() {
                         </div>
                         <div className="grow-0">
                             <h2 className="text-xl">{place.title}</h2>
-                            <p className="text-sm mt-2">{place.description}</p>
+                            {/* <p className="text-sm mt-2 text-ellipsis overflow-hidden">{place.description}</p> */}
+                            <p className="text-sm mt-2">{shortenDescription(place.description)}</p>
                         </div>
                     </Link>
                 ))}
