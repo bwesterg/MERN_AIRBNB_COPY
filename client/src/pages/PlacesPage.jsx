@@ -17,7 +17,7 @@ export default function PlacesPage() {
         let shortened = str.substring(0, 200);
         let shortElyp = shortened + elypsis;
         if (str.length <= 199) {
-            return 'str';
+            return str;
         } else {
             return shortElyp;
         }
@@ -41,9 +41,9 @@ export default function PlacesPage() {
             <div className="mt-4">
                 {places.length > 0 && places.map(place => (
                     <Link to={'/account/places/'+place._id} className="flex cursor-pointer bg-gray-100 p-4 gap-4 rounded-2xl mt-4">
-                        <div className="flex w-32 h-32 bg-gray-300 grow shrink-0">
+                        <div className="flex w-32 h-32 bg-gray-300 shrink-0">
                             {/* {place.photos.length > 0 && (
-                                <img className="object-cover w-full" src={'http://localhost:4000/uploads/' +place.photos[0]} alt="thumbnail photo"/>
+                                <img className="object-cover" src={'http://localhost:4000/uploads/' +place.photos[0]} alt="thumbnail photo"/>
                             )} */}
                             <PlaceImg place={place} />
                         </div>
