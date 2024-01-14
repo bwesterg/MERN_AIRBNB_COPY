@@ -26,7 +26,7 @@ export default function PlaceGallery({place}) {
                 </div>
             </div>
         )
-    }
+    };
 
     return (
         <div className="relative">
