@@ -33,7 +33,7 @@ export default function PlaceGallery({place}) {
             <div className="grid gap-2 grid-cols-[2fr_1fr] rounded-3xl overflow-hidden">
                 <div>
                     {place.photos?.[0] && (
-                        <div className="width-100">
+                        <div>
                             <img onClick={()=>setShowAllPhotos(true)} className="aspect-square object-cover cursor-pointer" src={'http://localhost:4000/uploads/'+place.photos?.[0]} alt="main image for place" />
                         </div>
                     )}
